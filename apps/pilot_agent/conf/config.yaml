@@ -1,0 +1,6 @@
+pilot_agent:
+  port: 8080
+  version: 0.0.0.1
+
+pilot_server:
+  addr: pilot-server.agent-pilot.svc.cluster.local:80

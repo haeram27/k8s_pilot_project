@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: pilot-server
+    namespace: agent-pilot
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        app: pilot-server
+    template:
+      metadata:
+        labels:
+          app: pilot-server
+      spec:
+        containers:
+        - name: pilot-server
+          image: docker.io/sanmaul/agent_pilot:server
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8080
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: pilot-server
+    namespace: agent-pilot
+  spec:
+    selector:
+      app: pilot-server
+    type: ClusterIP
+    ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: pilot-server-ext
+    namespace: agent-pilot
+  spec:
+    type: LoadBalancer
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: pilot-server

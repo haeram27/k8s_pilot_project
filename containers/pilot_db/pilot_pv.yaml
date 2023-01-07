@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: List
+items:
+
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: pilot-pv0
+  spec:
+    capacity:
+      storage: 512Mi
+    accessModes:
+      - ReadWriteOnce
+    hostPath:
+      path: /var/data/pilot-pv0

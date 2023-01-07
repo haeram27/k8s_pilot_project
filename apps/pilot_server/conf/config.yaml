@@ -1,0 +1,14 @@
+version: 0.1
+
+pilot_agent:
+  addr: pilot-agent.agent-pilot.svc.cluster.local
+
+pilot_server:
+  port: 8080
+
+pilot_db:
+  addr: pilot-db-svc.agent-pilot.svc.cluster.local
+  port: 5432
+  user: agent_pilot
+  db: agent_pilot
+  passwd: passwd

@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: apps/v1
+  kind: StatefulSet
+  metadata:
+    name: pilot-db
+    namespace: agent-pilot
+  spec:
+    serviceName: pilot-db
+    replicas: 1
+    selector:
+      matchLabels:
+        app: pilot-db
+    template:
+      metadata:
+        labels:
+          app: pilot-db
+      spec:
+        containers:
+        - name: pilot-db
+          image: docker.io/sanmaul/agent_pilot:db
+          ports:
+          - containerPort: 5432
+          volumeMounts:
+          - name: data
+            mountPath: /var/lib/postgresql/data
+    volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        resources:
+          requests:
+            storage: 512Mi
+        accessModes:
+        - ReadWriteOnce
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: pilot-db-svc
+    namespace: agent-pilot
+  spec:
+    ports:
+    - port: 5432
+      targetPort: 5432
+    selector:
+      app: pilot-db

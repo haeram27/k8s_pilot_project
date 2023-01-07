@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    name: pilot-dvlp
+    labels:
+      app: pilot-dvlp
+    namespace: agent-pilot
+  spec:
+    selector:
+      matchLabels:
+        app: pilot-dvlp
+    template:
+      metadata:
+        labels:
+          app: pilot-dvlp
+      spec:
+        containers:
+        - name: pilot-dvlp
+          image: docker.io/sanmaul/agent_pilot:dvlp
+          securityContext:
+            privileged: true
+          ports:
+          - containerPort: 8080
+          env:
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name          
+          volumeMounts:
+          - name: pilot-dvlp-src
+            mountPath: /src
+            readOnly: false
+          - name: proc
+            mountPath: /rootfs/proc
+            readOnly: true
+          - name: lib
+            mountPath: /rootfs/lib
+            readOnly: true
+          - name: run
+            mountPath: /rootfs/run
+            readOnly: true
+        volumes:
+        - name: pilot-dvlp-src
+          hostPath:
+            path: /src
+            type: DirectoryOrCreate
+        - name: proc
+          hostPath:
+            path: /proc
+        - name: lib
+          hostPath:
+            path: /var/lib
+        - name: run
+          hostPath:
+            path: /var/run
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: pilot-dvlp-svc
+    labels:
+      app: pilot-dvlp-svc
+    namespace: agent-pilot
+  spec:
+    ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+    selector:
+      app: pilot-dvlp
+

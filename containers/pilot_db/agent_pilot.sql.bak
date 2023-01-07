@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS pilot_deamons;
+
+CREATE TABLE pilot_deamons (
+	seqno		SERIAL PRIMARY KEY,
+	pod_name 	varchar(255) NOT NULL,
+	pod_ipaddr 	varchar(16) NOT NULL,
+	node_name 	varchar(255),
+	utime		bigint NOT NULL
+);
