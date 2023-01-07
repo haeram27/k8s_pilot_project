@@ -1,5 +1,5 @@
 # k8s_pilot_project  
-    
+  
 1. Source  
   
 1.1. source tree  
@@ -48,9 +48,9 @@ agent-pilot   pilot-dvlp-bpwgs     1/1     Running   0          82m
 $ kubectl exec -it pilot-dvlp-bpwgs -n agent-pilot -- /bin/sh -l  
    
 [root@pilot-dvlp-bpwgs:/src]  
-# cd agent_pilot/apps/test/  
+&#35; cd agent_pilot/apps/test/  
 [root@pilot-dvlp-bpwgs:/src/agent_pilot/apps/test]  
-# make  
+&#35; make  
 go build -o apps.exe apps.go  
 go build -o srvlookup.exe srvlookup.go  
   
@@ -74,7 +74,7 @@ agent-pilot   pilot-dvlp-bpwgs    1/1     Running   0           90m
 $ kubectl exec -it pilot-dvlp-bpwgs -n agent-pilot -- /bin/sh -l  
    
 [root@pilot-dvlp-bpwgs:/src]  
-# psql -h pilot-db-svc.agent-pilot.svc.cluster.local -p 5432 -U agent_pilot  
+&#35; psql -h pilot-db-svc.agent-pilot.svc.cluster.local -p 5432 -U agent_pilot  
 Password for user agent_pilot: {passwd}  
    
 psql (14.5, server 14.6)  
