@@ -1,8 +1,19 @@
 # k8s_pilot_project  
+
+![cluster arch](./meta-data/k8s.cluster.pilot.jpg)
+    
+|TYPE|COMPONENT|ROLE|TODO|LANG|FRAMEWORK|
+|:---:|---|---|---|---|---|
+|Standalone|Web Server|Test GUI Client|WEB Server (HTML)<br>GoLang<br>Beego Framework|HTTP Response<br>HTML<br>SQLite|HTTP Requeset<br>SQL|
+|RepicaSet|Control Server|Agent & CPPM Communication|REST API Server<br>HTTP Requeset<br>MVC (Model-View-Controller)<br>ORM (Object Relational Mapping)|GoLang|Echo Framework|
+|DaemonSet|Container Agent|Container Discovey & Scan|HTTP Response<br>HTTP Requeset<br>Container Discovey<br>Container Scan<br>|GoLang<br>SQL|Echo Framework<br>SQLite|
+|StatefulSet|Database|Data Store (Management)|SQL Query|GoLang<br>SQL|PostgreSQL|
+|Container|Deployment|Authorization|Build Environment<br>Container Build<br>Container Registry<br>Kubernetes Control|Shell<br>YAML|Kubernetes<br>Docker<br>Unix Shell|
+
+
+# 1. Source  
   
-1. Source  
-  
-1.1. source tree  
+## 1.1. source tree  
 ├── apps  
 │   ├── pilot_agent  
 │   ├── pilot_cppm  
@@ -19,12 +30,12 @@
 │   └── test  
   
   
-2.1. Namespace 생성 및 API 접근 권한 설정  
+## 2.1. Namespace 생성 및 API 접근 권한 설정  
 $ cd /src/agent_pilot/containers  
 $ kubectl apply -f agent_pilot.yaml  
   
   
-2.2. Dvlp Container에서 빌드  
+## 2.2. Dvlp Container에서 빌드  
 'pilot-dvlp' 은 DaemonSet 형식입니다.  
 소스 폴더 마운트를 위해 각 노드에 '/src/agent_pilot' 폴더가 있어야 합니다.  
   spec:  
@@ -55,7 +66,7 @@ go build -o apps.exe apps.go
 go build -o srvlookup.exe srvlookup.go  
   
   
-2.3. Database Container  
+## 2.3. Database Container  
 $ cd /src/agent_pilot/containers/pilot_db  
    
 $ kubectl apply -f pilot_pv.yaml  
@@ -76,7 +87,7 @@ $ kubectl exec -it pilot-dvlp-bpwgs -n agent-pilot -- /bin/sh -l
 [root@pilot-dvlp-bpwgs:/src]  
 &#35; psql -h pilot-db-svc.agent-pilot.svc.cluster.local -p 5432 -U agent_pilot  
 Password for user agent_pilot: {passwd}  
-   
+  
 psql (14.5, server 14.6)  
 Type "help" for help.  
    
